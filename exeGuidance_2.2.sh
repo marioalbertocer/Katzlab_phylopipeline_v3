@@ -327,12 +327,12 @@ if [ -z "${FASTA}" ] || [ -z "${SCRATCHDIR}" ] || [ -z "${NTHREADS}" ] || [ -z "
 		
 		echo "[$run] Executing trimal to remove columns with 95% or more gaps..."
 		echo "[$run] `head -1 $SCRATCHDIR/$genename/*phy` Head -1 of alignment BEFORE filtering gaps"
-		trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.nex -gapthreshold 0.05 -nexus
-		trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.fas -gapthreshold 0.05 -fasta
-		trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.phy -gapthreshold 0.05 -phylip
-#		./trimal-trimAl/source/trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.nex -gapthreshold 0.05 -nexus
-#		./trimal-trimAl/source/trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.fas -gapthreshold 0.05 -fasta
-#		./trimal-trimAl/source/trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.phy -gapthreshold 0.05 -phylip
+#		trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.nex -gapthreshold 0.05 -nexus
+#		trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.fas -gapthreshold 0.05 -fasta
+#		trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.phy -gapthreshold 0.05 -phylip
+		./trimal-trimAl/source/trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.nex -gapthreshold 0.05 -nexus
+		./trimal-trimAl/source/trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.fas -gapthreshold 0.05 -fasta
+		./trimal-trimAl/source/trimal -in $SCRATCHDIR/$genename/*phy -out $SCRATCHDIR/$genename/$genename.95gapTrimmed.phy -gapthreshold 0.05 -phylip
 		echo "[$run] `head -1 $SCRATCHDIR/$genename/$genename.95gapTrimmed.phy` Head -1 of alignment AFTER filtering gaps"
 		echo "[$run] ...trimal finished"
 		echo ""
@@ -357,9 +357,8 @@ if [ -z "${FASTA}" ] || [ -z "${SCRATCHDIR}" ] || [ -z "${NTHREADS}" ] || [ -z "
 					PHYLIP="$SCRATCHDIR/$genename/$genename.RAxML.phy"
 		
 				## RAxML commands
-				#raxmlHPC -s $PHYLIP -m PROTGAMMALG -f d -p 12345 -# 10 -n $genename -T $NTHREADS
-				#raxmlHPC -s $PHYLIP -m PROTGAMMALG -f d -p 12345 -n $genename -T $NTHREADS
-				raxmlHPC -s $PHYLIP -m PROTGAMMALG -f d -p 12345 -# 1 -n $genename # -T 3
+#				raxmlHPC -s $PHYLIP -m PROTGAMMALG -f d -p 12345 -# 1 -n $genename # -T 3
+				raxmlHPC -s $PHYLIP -m PROTGAMMALG -f d -p 12345 -# 1 -n $genename # -T $NTHREADS
 				echo "[$run] ...RAxML finished"
 				echo ""
 			else

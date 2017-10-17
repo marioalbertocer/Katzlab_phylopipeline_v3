@@ -54,8 +54,8 @@ def get_parameters():
 def writelog(PathtoOutput,string):
 	logfile = open(PathtoOutput + '/logfile', 'a')
 	logfile.write(string + '\n')
-	logfile.close()
-	
+	logfile.close()	
+
 def main():
 	arg = sys.argv
 	if len(arg) == 2:
