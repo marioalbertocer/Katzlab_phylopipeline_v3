@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from Pipeline import Pipeline
-import os, sys
+import os 
+import sys
 import Utilities
 
 def get_parameters():
