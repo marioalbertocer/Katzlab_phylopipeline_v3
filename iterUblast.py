@@ -52,11 +52,12 @@ def sort_cluster(forpairComp, toosim):
 			if len(FastaDict) >= 1:
 				largest = sorted(FastaDict, key=lambda seq_Name: -len(FastaDict[seq_Name]))[0]
 				master_seq = [largest, FastaDict[largest]]
-					
-				if str(toosim) == 'n':
-					fasta2keep_file.write('>%s\n%s\n' % (master_seq[0], master_seq[1]))
+
+			if str(toosim) == 'n':
+				for seq in FastaDict:
+					fasta2keep_file.write('>%s\n%s\n' % (seq, FastaDict[seq]))
 					master_seq = ''
-		
+					
 		# after every run, the master sequence is saved in fasta2keep. So, there should be at
 		# least 1 master sequence or fasta2keep is not produced. 		
 		if master_seq:		
