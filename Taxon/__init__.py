@@ -77,10 +77,8 @@ class Taxon:
 			
 	def set_blast(self,fileName, PathtoBlastFiles):	
 		print fileName[:10] + ': Parsing blast report'
-		test = ''
 		for blastFileName in os.listdir(PathtoBlastFiles):
 			if re.search(fileName[:10], blastFileName):
-				test = 'ok'
 				blastrecords = NCBIXML.parse(open(PathtoBlastFiles + blastFileName,'r'))		
 				for blast in blastrecords:
 					if blast.descriptions:
