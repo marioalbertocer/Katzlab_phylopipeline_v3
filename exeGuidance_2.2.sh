@@ -358,7 +358,7 @@ if [ -z "${FASTA}" ] || [ -z "${SCRATCHDIR}" ] || [ -z "${NTHREADS}" ] || [ -z "
 		
 				## RAxML commands
 #				raxmlHPC -s $PHYLIP -m PROTGAMMALG -f d -p 12345 -# 1 -n $genename # -T 3
-				raxmlHPC -s $PHYLIP -m PROTGAMMALG -f d -p 12345 -# 1 -n $genename # -T $NTHREADS
+				raxmlHPC-PTHREADS-AVX2 -s $PHYLIP -m PROTGAMMALG -f d -p 12345 -# 1 -n $genename -T $NTHREADS
 				echo "[$run] ...RAxML finished"
 				echo ""
 			else

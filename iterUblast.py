@@ -93,7 +93,7 @@ def sort_cluster(forpairComp, toosim):
 							seqName = str(tsvLine.split('\t')[0]) 
 							identity = float(tsvLine.split('\t')[2])
 							
-							if (alignmentLength - gaps) >= 0.55 * len(master_seq[1]):
+							if (alignmentLength - gaps) >= 0.35 * len(master_seq[1]):
 								retained_OF += 1
 								if str(toosim) == 'n':
 									tsvFiltered.append(tsvLine + '\tOF+\t' + str(run) + 'SF_NA')
