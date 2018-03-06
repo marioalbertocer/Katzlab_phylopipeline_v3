@@ -158,6 +158,10 @@ The function cleaner() removes all files that you don't need. It is called
 from the script phylopipe_3.py
 """
 
+def contaminationRemoval()
+
+
+
 def cleaner(testPipelineList, PathtoFiles, PathtoOutput):
 	
 	os.system('rm -f *log*')
