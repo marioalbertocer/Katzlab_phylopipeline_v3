@@ -155,12 +155,8 @@ def renamefiles(og, tokeepdir, codesDic):
 			
 """
 The function cleaner() removes all files that you don't need. It is called 
-from the script phylopipe_3.py
+from the script PhyloTOL.py
 """
-
-def contaminationRemoval()
-
-
 
 def cleaner(testPipelineList, PathtoFiles, PathtoOutput):
 	
@@ -176,3 +172,34 @@ def cleaner(testPipelineList, PathtoFiles, PathtoOutput):
 	os.system('rm -r ' + PathtoFiles + 'FileLists_' + testPipelineList + '/')
 	
 	print "\n\nFind your files in folder: " + '../' + testPipelineList + '_results2keep \n\n'
+
+"""
+The function contaminationRemoval removes contamination from sequence data (ncbiFiles). It is called 
+from the script PhyloTOL_Ccleaner.py.
+
+IMPORTANT :
+- Databases are only useful for current experiment. They have to be replaced because sequences removed by
+GUIDANCE (non-homologs by context) are remoived in every iteration
+- The ouput "allSeqs2remove.txt" contains contamination sequences (bassed on rules provided by user). This 
+file can be used for cleanning permanent databases.
+"""
+
+def contaminationRemoval(testPipelineList, PathtoFiles, rules):
+	treeFolder = '../' + testPipelineList + '_results2keep/'
+	
+	if os.path.exists(treeFolder):
+		
+		nonHomol_out = open(treeFolder + "nonHomologs", "w")
+		for file in os.listdir(treeFolder):
+			if file.endswith('postguidance.fas_renamed.fas'):
+				og = file.split("_")[0]
+				postseqs = open(treeFolder + file, "r").readlines()
+				preseqs = open(treeFolder + og + '_preguidance.fas_renamed.fas', "r").readlines()
+				for preseq in preseqs:
+					if '>' in preseq:
+						if preseq not in postseqs : nonHomol_out.append(preseq)
+						
+				for seqname in nonHomologs : nonHomol_out.write("%s" % seqname)
+				
+		os.system('python walk_tree_contamination_single.py ' + treeFolder + ' sisterReport')
+		os.system('ruby seqs2remove.rb ../' + 'sisterReport')

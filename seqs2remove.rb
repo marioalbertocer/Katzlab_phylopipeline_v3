@@ -10,14 +10,17 @@
 # Running:
 # - Put all the imput files and folders in the same folder and run scrip with ruby: "ruby seqs2remove.rb"
 
+# ruby seqs2remove.rb path2Files sisterReport rules seqs2remove_out nonHomologs 
+
 path = ARGV[0]
-report_summary = File.open(path + ARGV[1], 'r').readlines()
-rules = File.open(path + ARGV[2], 'r').readlines()
-sequences_contamination = File.open(path + ARGV[3], 'w')
+report_summary = File.open(ARGV[1], 'r').readlines()
+rules = File.open(ARGV[2], 'r').readlines()
+sequences_contamination = File.open(ARGV[3], 'w')
 ncbiFiles = path + '/ncbiFiles/'
 system "mkdir " + path + "/newncbi/"
+newncbi = path + '/newncbi/'
 seqs2remove = Array.new
-nonhomologs = File.open(path + ARGV[4], 'r').readlines()
+nonhomologs = File.open(ARGV[4], 'r').readlines()
 total2remove = nonhomologs
 
 
@@ -57,7 +60,7 @@ end
 		to_remove = Array.new
 		ncbisequences = File.open(ncbiFiles + ncbiFile, "r").readlines()
 		newncbiTags = Array.new
-		newncbiFile = File.open(path + "/newncbi/" + ncbiFile, "w")
+		newncbiFile = File.open(newncbi + ncbiFile, "w")
 
 		puts ncbiFile
 	
@@ -85,5 +88,5 @@ end
 	end
 end
 
-system "rm -r " + path + "/ncbiFiles"
-system "mv " + path + "/newncbi " + path + "/ncbiFiles"
+system "rm -r " + ncbiFiles
+system "mv " + newncbi + "\t" + ncbiFiles
