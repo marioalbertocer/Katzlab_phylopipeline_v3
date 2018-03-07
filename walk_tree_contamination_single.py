@@ -7,6 +7,8 @@
 # - For all other taxa when the 10 digits codes is the same for the sister, it takes the whole clade and reports its sister.
 # - Now it reports branch lengths
 
+# python walk_tree_contamination.py treesFolder output
+# python walk_tree_contamination.py ./trees ./output
 
 import dendropy
 from p4 import *

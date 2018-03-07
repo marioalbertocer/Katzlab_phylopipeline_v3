@@ -1,7 +1,7 @@
 import os
 import sys
 import re
-
+import time
 
 """"
 iterUblast() is a function to run JD's script for filtering sequences based on similarity and using 'Cluster'. It runs from the Gene class
@@ -180,26 +180,31 @@ from the script PhyloTOL_Ccleaner.py.
 IMPORTANT :
 - Databases are only useful for current experiment. They have to be replaced because sequences removed by
 GUIDANCE (non-homologs by context) are remoived in every iteration
-- The ouput "allSeqs2remove.txt" contains contamination sequences (bassed on rules provided by user). This 
-file can be used for cleanning permanent databases.
+- The ouput "seqs2remove_out" contains contamination sequences (bassed on rules provided by user). This 
+file can be used for cleanning permanent databases. This file is re-written in each run, but PhyloTOL_Ccleaner.py
+concatenates the file of every run in the file allSeqs2remove
 """
 
-def contaminationRemoval(testPipelineList, PathtoFiles, rules):
-	treeFolder = '../' + testPipelineList + '_results2keep/'
+def contaminationRemoval(treeFolder, PathtoFiles, rules):
+			
+	nonHomol_out = open(treeFolder + "nonHomologs", "w")
 	
-	if os.path.exists(treeFolder):
+	for file in os.listdir(treeFolder):
+		if file.endswith('postguidance.fas_renamed.fas'):
+			og = file.split("_")[0]
+			postseqs = open(treeFolder + file, "r").readlines()
+			preseqs = open(treeFolder + og + '_preguidance.fas_renamed.fas', "r").readlines()
+			for preseq in preseqs:
+				if '>' in preseq:
+					if preseq not in postseqs:
+						nonHomol_out.append(preseq)
+						nonHomol_out.write("%s" % seqname)
+					
+			
+	os.system('python walk_tree_contamination_single.py ' + treeFolder + ' sisterReport')
+	print "writing sisterReport ..."
+	time.sleep(120)		
+	os.system('ruby seqs2remove.rb ../ ' + 'sisterReport ' + 'rules ' + 'seqs2remove_out ' + 'nonHomologs')
+	print "Replacing fasta files ..."
+	time.sleep(240)
 		
-		nonHomol_out = open(treeFolder + "nonHomologs", "w")
-		for file in os.listdir(treeFolder):
-			if file.endswith('postguidance.fas_renamed.fas'):
-				og = file.split("_")[0]
-				postseqs = open(treeFolder + file, "r").readlines()
-				preseqs = open(treeFolder + og + '_preguidance.fas_renamed.fas', "r").readlines()
-				for preseq in preseqs:
-					if '>' in preseq:
-						if preseq not in postseqs : nonHomol_out.append(preseq)
-						
-				for seqname in nonHomologs : nonHomol_out.write("%s" % seqname)
-				
-		os.system('python walk_tree_contamination_single.py ' + treeFolder + ' sisterReport')
-		os.system('ruby seqs2remove.rb ../' + 'sisterReport')

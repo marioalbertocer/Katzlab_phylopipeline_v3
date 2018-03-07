@@ -10,7 +10,8 @@
 # Running:
 # - Put all the imput files and folders in the same folder and run scrip with ruby: "ruby seqs2remove.rb"
 
-# ruby seqs2remove.rb path2Files sisterReport rules seqs2remove_out nonHomologs 
+# ruby seqs2remove.rb path2Files sisterReport rules seqs2remove_out nonHomologs
+# ruby seqs2remove.rb ./ sisterReport rules seqs2remove_out nonHomologs
 
 path = ARGV[0]
 report_summary = File.open(ARGV[1], 'r').readlines()
