@@ -17,6 +17,7 @@ path = ARGV[0]
 report_summary = File.open(ARGV[1], 'r').readlines()
 rules = File.open(ARGV[2], 'r').readlines()
 sequences_contamination = File.open(ARGV[3], 'w')
+trees_contamination = File.open(ARGV[3] + '_treesWcont', 'w')
 ncbiFiles = path + '/ncbiFiles/'
 system "mkdir " + path + "/newncbi/"
 newncbi = path + '/newncbi/'
@@ -26,10 +27,12 @@ total2remove = nonhomologs
 
 
 count = 0
+treesWcontamination = []
 report_summary.each do |line|
 	count += 1
 	line = line.chomp
 	line = line.split("\t")
+	og = line[0]
 	taxon = line[1]
 	sequence = line[2]
 	sister = line[3]
@@ -46,11 +49,16 @@ report_summary.each do |line|
 				if sister.include? taxon_contamination
 					puts "contamination:\t" + sequence
 					seqs2remove << sequence
+					treesWcontamination << og
 					sequences_contamination.write(sequence + "\n")
 				end
 			end	
 		end
 	end
+end
+
+(treesWcontamination.uniq!).each do |tree|
+	trees_contamination.write(tree + "\n")
 end
 
 (total2remove << seqs2remove).flatten!

@@ -197,16 +197,13 @@ def contaminationRemoval(treeFolder, PathtoFiles, rules):
 			for preseq in preseqs:
 				if '>' in preseq:
 					if preseq not in postseqs:
-						nonHomol_out.append(preseq)
-						nonHomol_out.write("%s" % seqname)
+#						nonHomol_out.append(preseq)
+						nonHomol_out.write("%s" % preseq)
 					
 			
 	os.system('python walk_tree_contamination_single.py ' + treeFolder + ' sisterReport')
-	sisterR = open(treefolder + "sisterReport", 'r').readlines()
-	ogs2reprocess = []
-	for og in sisterR: ogs2reprocess.append(og.split("\t")[0])
-	ogs2reprocess = list(set(ogs2reprocess))
-			
+	print "Writing sister report ..."
+	time.sleep(60)
 	os.system('ruby seqs2remove.rb ../ ' + 'sisterReport ' + 'rules ' + 'seqs2remove_out ' + 'nonHomologs')
 	print "Replacing fasta files ..."
 	time.sleep(240)

@@ -278,7 +278,7 @@ def main():
 		answer_Cleaner = ''
 		valid_answers = ['y', 'n']
 
-		if ct == 'ct':
+		if ct == 'y':
 			answer_Cleaner == 'y'
 		else:
 			while (answer_Cleaner not in valid_answers):  
