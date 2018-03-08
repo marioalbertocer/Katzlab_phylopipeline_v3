@@ -202,9 +202,13 @@ def contaminationRemoval(treeFolder, PathtoFiles, rules):
 					
 			
 	os.system('python walk_tree_contamination_single.py ' + treeFolder + ' sisterReport')
-	print "writing sisterReport ..."
-	time.sleep(120)		
+	sisterR = open(treefolder + "sisterReport", 'r').readlines()
+	ogs2reprocess = []
+	for og in sisterR: ogs2reprocess.append(og.split("\t")[0])
+	ogs2reprocess = list(set(ogs2reprocess))
+			
 	os.system('ruby seqs2remove.rb ../ ' + 'sisterReport ' + 'rules ' + 'seqs2remove_out ' + 'nonHomologs')
 	print "Replacing fasta files ..."
 	time.sleep(240)
+	return(ogs2reprocess)
 		

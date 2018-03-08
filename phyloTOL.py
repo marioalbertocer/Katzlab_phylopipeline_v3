@@ -58,11 +58,12 @@ def writelog(PathtoOutput,string):
 	
 def main():
 	arg = sys.argv
+	ct = 'n'
 	if len(arg) == 2:
 		mode = sys.argv[1]
 		allowed_modes = ['ng', 'nr']
-		if mode not in allowed_modes:
-			mode = 'df'
+		if mode == 'ct' : ct = 'y'
+		if mode not in allowed_modes : mode = 'df'
 	else:
 		mode = 'df'
 	print "\n** mode -> %s **" % mode
@@ -277,11 +278,14 @@ def main():
 		answer_Cleaner = ''
 		valid_answers = ['y', 'n']
 
-		while (answer_Cleaner not in valid_answers):  
-			answer_Cleaner = raw_input("\n\nDo you want to execute the cleaner? (y/n): ")
+		if ct == 'ct':
+			answer_Cleaner == 'y'
+		else:
+			while (answer_Cleaner not in valid_answers):  
+				answer_Cleaner = raw_input("\n\nDo you want to execute the cleaner? (y/n): ")
 	
-			if (answer_Cleaner not in valid_answers): 
-				print "\n\nplease answer y or n"
+				if (answer_Cleaner not in valid_answers): 
+					print "\n\nplease answer y or n"
 	
 		if answer_Cleaner is 'y':
 			Utilities.cleaner(testPipelineList, PathtoFiles, PathtoOutput)
