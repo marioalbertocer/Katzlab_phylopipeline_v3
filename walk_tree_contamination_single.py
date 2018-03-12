@@ -59,7 +59,7 @@ for t in os.listdir('%s' % treesFolder):		# Take each file in the folder that ha
 		OG5 = t.split('.')[1].replace('_postguidance', '')	# Take the OG code from the file that contains the tree
 										
 		n = n+1							# Each time that you take a file with a tree. This counter add 1...
-		print "%s\t%s" % (n,t)  		# ... and shows you in the terminal.
+		print "walk_tree_contamination_single.py: %s\t%s" % (n,t)  		# ... and shows you in the terminal.
 										# In this way you can track how many trees have been analyzed
 		
 		var.trees = []								# Here we are initializing the variable (for p4)...
@@ -315,11 +315,12 @@ for t in os.listdir('%s' % treesFolder):		# Take each file in the folder that ha
 	#				report.write (OG5 + ',' + taxa + ',' +  result + '\n') # report result in output
 
 			if 'error tree' in error_tree: # if the tree couldn't be re-rooted, retrieve 'OG cannot be annalized' 
-				print OG5 + ' cannot be annalized'
+				print "walk_tree_contamination.py: " + OG5 + ' cannot be annalized'
 				error_tree = ''
 		
 		else:
-			print OG5 + ":\t" + "This tree is ignored because it contains less than 4 minor clades"
+			print "walk_tree_contamination.py: Tree is ignored because it contains less than 4 minor clades --> " + OG5
+
 #	print (branches.values()).sort()
 
 #	total = 0

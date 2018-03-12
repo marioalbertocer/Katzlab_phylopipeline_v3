@@ -179,33 +179,32 @@ from the script PhyloTOL_Ccleaner.py.
 
 IMPORTANT :
 - Databases are only useful for current experiment. They have to be replaced because sequences removed by
-GUIDANCE (non-homologs by context) are remoived in every iteration
+GUIDANCE (non-homologs by context) are removed in every iteration
 - The ouput "seqs2remove_out" contains contamination sequences (bassed on rules provided by user). This 
-file can be used for cleanning permanent databases. This file is re-written in each run, but PhyloTOL_Ccleaner.py
-concatenates the file of every run in the file allSeqs2remove
+file can be used for cleanning permanent databases. This file is re-written in each run, but PhyloTOL_conCleaner.py
+concatenates the file of every run in the file seqs2remove_all
 """
 
 def contaminationRemoval(treeFolder, PathtoFiles, rules):
 			
-	nonHomol_out = open(treeFolder + "nonHomologs", "w")
+	nonHomol_out = open("nonHomologs", "w")
 	
 	for file in os.listdir(treeFolder):
 		if file.endswith('postguidance.fas_renamed.fas'):
-			og = file.split("_")[0]
+			og = file.split("_")[0] + "_" + file.split("_")[1]
 			postseqs = open(treeFolder + file, "r").readlines()
 			preseqs = open(treeFolder + og + '_preguidance.fas_renamed.fas', "r").readlines()
 			for preseq in preseqs:
 				if '>' in preseq:
 					if preseq not in postseqs:
-#						nonHomol_out.append(preseq)
 						nonHomol_out.write("%s" % preseq)
+						print "Utilities.py - contaminationRemoval(): this sequences is not homolog --> " + preseq
 					
 			
 	os.system('python walk_tree_contamination_single.py ' + treeFolder + ' sisterReport')
-	print "Writing sister report ..."
+	print "Utilities.py - contaminationRemoval(): Writing sister report ..."
 	time.sleep(60)
-	os.system('ruby seqs2remove.rb ../ ' + 'sisterReport ' + 'rules ' + 'seqs2remove_out ' + 'nonHomologs')
-	print "Replacing fasta files ..."
+	os.system('ruby seqs2remove.rb ../DataFiles/ ' + 'sisterReport ' + rules + ' seqs2remove_out ' + 'nonHomologs')
+	print "Utilities.py - contaminationRemoval(): Replacing fasta files ..."
 	time.sleep(240)
-	return(ogs2reprocess)
 		

@@ -27,7 +27,7 @@ total2remove = nonhomologs
 
 
 count = 0
-treesWcontamination = []
+treesWcontamination = Array.new
 report_summary.each do |line|
 	count += 1
 	line = line.chomp
@@ -47,7 +47,7 @@ report_summary.each do |line|
 			contamination.each do |taxon_contamination|
 
 				if sister.include? taxon_contamination
-					puts "contamination:\t" + sequence
+					puts "seqs2remove.rb : contamination --> " + sequence
 					seqs2remove << sequence
 					treesWcontamination << og
 					sequences_contamination.write(sequence + "\n")
@@ -57,12 +57,17 @@ report_summary.each do |line|
 	end
 end
 
-(treesWcontamination.uniq!).each do |tree|
-	trees_contamination.write(tree + "\n")
+trees2reprocess = treesWcontamination.uniq
+if treesWcontamination != []
+	trees2reprocess.each do |tree|
+		puts "seqs2remove.rb: tree with contamination --> " + tree
+		trees_contamination.write(tree + "\n")
+	end
 end
 
 (total2remove << seqs2remove).flatten!
 
+puts "\nseqs2remove.rb: removing sequences from Databases:"
 (Dir.open(ncbiFiles)).each do |ncbiFile|
 	if ncbiFile.include? ".fasta"
 		taxon = ncbiFile[0..9]
@@ -88,8 +93,8 @@ end
 				unless to_remove.include? tag
 					newncbiFile.write(ncbisequence + ncbisequences[index + 1])
 				else
-					puts "removed: " + ncbisequence
-					puts "removed: " + ncbisequences[index + 1]
+					puts "\nremoved: " + ncbisequence
+					puts "removed: " + ncbisequences[index + 1] + "\n"
 				end
 			end
 			index += 1
