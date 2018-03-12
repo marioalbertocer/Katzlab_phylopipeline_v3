@@ -60,7 +60,9 @@ def main():
 	arg = sys.argv
 	ct = 'n'
 	if len(arg) == 2:
+		print "runs the phylotol with 2 arguments" ## delete this
 		mode = sys.argv[1]
+		print "mode: " + sys.argv[1]
 		allowed_modes = ['ng', 'nr']
 		if mode == 'ct' : ct = 'y'
 		if mode not in allowed_modes : mode = 'df'
@@ -94,10 +96,17 @@ def main():
 		
 	if concatAlignment is not 'y' and concatAlignment is not 'n':
 		print "\n*** your answer concatAlignment = " + concatAlignment + " is not correct. The pipeline takes 'n' as default ***"
-	if os.path.exists('../' + testPipelineList + '_results2keep'):
-		print 'terminating phylopipe 3: the folder ' + '../' + testPipelineList + '_results2keep exists. Choose another name for your OG list\n\n'
-		quit()
+	
+	if not ct == 'y':
+		if os.path.exists('../' + testPipelineList + '_results2keep'):
+			print 'terminating PhyloTOL: the folder ' + '../' + testPipelineList + '_results2keep exists. Choose another name for your OG list\n\n'
+			quit()
 
+	infile = open(PathtoFiles + '/' + testPipelineList,'r').readlines()  #list of ogs of interest
+	if infile == []: 
+		print 'terminating PhyloTOL: Your list of OGs is empty\n\n'
+		quit()
+	
 	'''
 	MACR - For pipeleline 3
  
@@ -258,8 +267,7 @@ def main():
 	if she/he wants to run a similarity filter for the sequences.
 	'''	
 
-	os.system('mkdir ' + PathtoFiles+ '/FileLists_' + testPipelineList)
-	infile = open(PathtoFiles + '/' + testPipelineList,'r')  #list of ogs of interest	
+	os.system('mkdir ' + PathtoFiles+ '/FileLists_' + testPipelineList)	
 	count = 0
 	li = []
 	for line in infile:
@@ -279,7 +287,7 @@ def main():
 		valid_answers = ['y', 'n']
 
 		if ct == 'y':
-			answer_Cleaner == 'y'
+			answer_Cleaner = 'y'
 		else:
 			while (answer_Cleaner not in valid_answers):  
 				answer_Cleaner = raw_input("\n\nDo you want to execute the cleaner? (y/n): ")
